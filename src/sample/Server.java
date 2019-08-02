@@ -9,17 +9,17 @@ import java.net.UnknownHostException;
 
 public class Server implements Runnable{
 
-    private static int PORT = 8000;
-    private static String LOCALHOST = "127.0.0.1";
+    private static final int PORT = 8000;
+    private static final String LOCALHOST = "127.0.0.1";
 
     @Override
     public void run() {
         try (
-            Socket socket = new Socket(LOCALHOST, PORT)
+            Socket socket = new Socket(LOCALHOST, PORT);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            String buffer;
 
+            String buffer;
             while ((buffer = reader.readLine())!= null){
 
                 //TODO

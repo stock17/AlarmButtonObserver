@@ -1,4 +1,4 @@
-package sample;
+package com.yurima.alarmbuttonobserver;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

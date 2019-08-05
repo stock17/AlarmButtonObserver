@@ -1,4 +1,4 @@
-package sample;
+package com.yurima.alarmbuttonobserver;
 
 import java.io.BufferedReader;
 import java.io.IOException;

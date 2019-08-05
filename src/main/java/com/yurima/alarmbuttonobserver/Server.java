@@ -25,8 +25,6 @@ public class Server implements Runnable{
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
             listener.onConnect();
-            if (socket != null && socket.isConnected())
-                System.out.println("Server is connected");
 
             String buffer;
             while ((buffer = reader.readLine())!= null){

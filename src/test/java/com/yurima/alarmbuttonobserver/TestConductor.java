@@ -12,26 +12,33 @@ public class TestConductor {
     private static Socket socket;
 
     public static void main(String[] args) {
-        try (ServerSocket serverSocket = new ServerSocket(PORT);
-             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
-             ){
-            while (true) {
-                socket = serverSocket.accept();
-                String testCommand;
-                while ((testCommand = reader.readLine()) != null){
-                    switch (testCommand){
-                        case "0":
-                            socket.shutdownOutput();
-                            socket.close();
-                            break;
-                        default:
+
+        while (true) {
+
+            try (ServerSocket serverSocket = new ServerSocket(PORT);
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
+                 ){
+                while (true) {
+                    socket = serverSocket.accept();
+                    String testCommand;
+                    while ((testCommand = reader.readLine()) != null){
+                        System.out.println("Command:" + testCommand);
+                        switch (testCommand){
+                            case "0":
+                                socket.shutdownInput();
+                                socket.shutdownOutput();
+                                socket.close();
+                                System.out.println("SOcket is closed");
+                                throw new IOException();
+                            default:
+                        }
                     }
+
                 }
 
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }

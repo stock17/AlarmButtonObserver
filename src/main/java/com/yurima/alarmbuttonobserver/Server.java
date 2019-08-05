@@ -12,12 +12,21 @@ public class Server implements Runnable{
     private static final int PORT = 8000;
     private static final String LOCALHOST = "127.0.0.1";
 
+    public void setListener(ServerStateListener listener) {
+        this.listener = listener;
+    }
+
+    private ServerStateListener listener;
+
     @Override
     public void run() {
         try (
             Socket socket = new Socket(LOCALHOST, PORT);
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
+            listener.onConnect();
+            if (socket != null && socket.isConnected())
+                System.out.println("Server is connected");
 
             String buffer;
             while ((buffer = reader.readLine())!= null){
@@ -28,9 +37,16 @@ public class Server implements Runnable{
 
         } catch (UnknownHostException e){
             e.printStackTrace();
+            listener.onDisconnect();
         } catch (IOException e){
             e.printStackTrace();
+            listener.onDisconnect();
         }
 
+    }
+
+    interface ServerStateListener {
+        void onConnect();
+        void onDisconnect();
     }
 }

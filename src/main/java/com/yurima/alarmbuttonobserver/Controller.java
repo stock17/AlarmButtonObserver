@@ -3,6 +3,7 @@ package com.yurima.alarmbuttonobserver;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -17,6 +18,9 @@ public class Controller implements Server.ServerStateListener {
 
     @FXML
     private Button startButton;
+
+    @FXML
+    private Label alarmMessageLabel;
 
     @FXML
     private void onStartButtonClick(){

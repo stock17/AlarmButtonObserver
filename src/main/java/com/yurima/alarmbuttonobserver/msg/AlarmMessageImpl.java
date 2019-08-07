@@ -28,7 +28,6 @@ public class AlarmMessageImpl implements AlarmMessage {
     }
 
     //Recover alarm message from JSON object
-
     public AlarmMessageImpl(JSONObject json) throws JSONException {
         this.id = json.getInt(ID_NAME);
         this.date = new Date(json.getLong(DATE_NAME));

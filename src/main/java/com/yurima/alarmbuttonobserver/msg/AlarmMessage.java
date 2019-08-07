@@ -6,7 +6,7 @@ public interface AlarmMessage {
 
     JSONObject toJson();
     void setLocation(Location location);
-    void setSender(String sender);
+    void setPhone(String phone);
 
     class Location{
         double latitude;

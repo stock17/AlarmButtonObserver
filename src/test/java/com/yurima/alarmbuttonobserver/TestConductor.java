@@ -1,10 +1,11 @@
 package com.yurima.alarmbuttonobserver;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Calendar;
 
 public class TestConductor {
 
@@ -16,10 +17,11 @@ public class TestConductor {
         while (true) {
 
             try (ServerSocket serverSocket = new ServerSocket(PORT);
-                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))
+                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
                  ){
                 while (true) {
                     socket = serverSocket.accept();
+                    PrintWriter writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()), true);
                     String testCommand;
                     while ((testCommand = reader.readLine()) != null){
                         System.out.println("Command:" + testCommand);
@@ -30,6 +32,15 @@ public class TestConductor {
                                 socket.close();
                                 System.out.println("SOcket is closed");
                                 throw new IOException();
+                            case "1":
+                                String msg = new String ("{" +
+                                    AlarmMessage.ID_NAME + ":1," +
+                                    AlarmMessage.DATE_NAME + ":" + Calendar.getInstance().getTime().getTime()+ "," +
+                                    AlarmMessage.PHONE_NAME + ":+79991234567" +
+                                    "}");
+                                writer.println(msg);
+                                writer.flush();
+                                break;
                             default:
                         }
                     }

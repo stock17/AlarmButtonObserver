@@ -1,5 +1,9 @@
 package com.yurima.alarmbuttonobserver;
 
+import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
+import com.yurima.alarmbuttonobserver.msg.AlarmMessageImpl;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,10 +24,11 @@ public class Server implements Runnable{
 
     @Override
     public void run() {
-        try (
+        try
+
+         {
             Socket socket = new Socket(LOCALHOST, PORT);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))
-        ) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             listener.onConnect();
 
             String buffer;
@@ -31,6 +36,9 @@ public class Server implements Runnable{
 
                 //TODO
                 System.out.println(buffer);
+
+                AlarmMessage msg = new AlarmMessageImpl(new JSONObject(buffer));
+                listener.onAlarmMessageReceived(msg);
             }
 
         } catch (UnknownHostException e){
@@ -46,5 +54,6 @@ public class Server implements Runnable{
     interface ServerStateListener {
         void onConnect();
         void onDisconnect();
+        void onAlarmMessageReceived(AlarmMessage msg);
     }
 }

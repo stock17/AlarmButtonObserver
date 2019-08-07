@@ -15,12 +15,6 @@ public class AlarmMessageImpl implements AlarmMessage {
     private AlarmMessage.Location location;
     private String phone;
 
-    private final String ID_NAME = "idkey";
-    private final String DATE_NAME = "date";
-    private final String LONGITUDE_NAME = "long";
-    private final String LATITUDE_NAME = "lat";
-    private final String PHONE_NAME = "phone";
-
     //Create new alarm message in a client application
     public AlarmMessageImpl(int id) {
         this.date = Calendar.getInstance().getTime();
@@ -80,6 +74,22 @@ public class AlarmMessageImpl implements AlarmMessage {
             return null;
         }
         return json;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 }
 

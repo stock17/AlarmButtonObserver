@@ -1,5 +1,6 @@
 package com.yurima.alarmbuttonobserver;
 
+import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,5 +45,13 @@ public class Controller implements Server.ServerStateListener {
         Platform.runLater( () -> {
             startButton.setGraphic(new ImageView(disconnectedImage));
         });
+    }
+
+    @Override
+    public void onAlarmMessageReceived(AlarmMessage msg) {
+        Platform.runLater( () -> {
+            alarmMessageLabel.setText(msg.toString());
+        });
+
     }
 }

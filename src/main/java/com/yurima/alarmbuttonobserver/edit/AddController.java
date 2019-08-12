@@ -2,17 +2,17 @@ package com.yurima.alarmbuttonobserver.edit;
 
 import javafx.fxml.FXML;
 
-public class AddController{
+public class AddController implements EditFormController {
 
     @FXML
-    private void onOkButtonClick(){
+    public void onOkButtonClick(){
         //TODO
-        System.out.println("OK");
+        System.out.println("OK in AddForm");
     }
 
     @FXML
-    private void onCancelButtonClick(){
+    public void onCancelButtonClick(){
         //TODO
-        System.out.println("Cancel");
+        System.out.println("Cancel in AddForm");
     }
 }

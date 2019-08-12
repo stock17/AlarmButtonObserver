@@ -1,6 +1,8 @@
 package com.yurima.alarmbuttonobserver;
 
 import com.yurima.alarmbuttonobserver.edit.AddController;
+import com.yurima.alarmbuttonobserver.edit.EditController;
+import com.yurima.alarmbuttonobserver.edit.EditFormController;
 import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -42,8 +44,17 @@ public class Controller implements Server.ServerStateListener {
 
     @FXML
     private void onAddButtonClick() throws IOException {
+        openEditForm(new AddController());
+    }
+
+    @FXML
+    private void onEditButtonClick() throws IOException {
+        openEditForm(new EditController());
+    }
+
+    private void openEditForm(EditFormController controller) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_form.fxml"));
-        loader.setController(new AddController());
+        loader.setController(controller);
         Parent root = loader.load();
         Scene scene = new Scene(root, 800, 600);
         Stage stage = new Stage();

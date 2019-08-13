@@ -34,12 +34,12 @@
       <Label text="Долгота" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
       <Label text="Номер телефона" GridPane.halignment="RIGHT" GridPane.rowIndex="5" />
       <Label text="Фото" GridPane.halignment="RIGHT" GridPane.rowIndex="6" />
-      <TextField GridPane.columnIndex="1" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <TextField fx:id="id" GridPane.columnIndex="1" />
+      <TextField fx:id="name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="address" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="latitude" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <TextField fx:id="longitude" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <TextField fx:id="phone" GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <Button fx:id="okButton" mnemonicParsing="false" onAction="#onOkButtonClick" text="ОК" GridPane.halignment="RIGHT" GridPane.rowIndex="7" />
       <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelButtonClick" text="ОТМЕНА" GridPane.columnIndex="1" GridPane.rowIndex="7" />

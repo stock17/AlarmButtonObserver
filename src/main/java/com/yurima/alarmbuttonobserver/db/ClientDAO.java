@@ -5,15 +5,7 @@ import java.sql.*;
 
 public class ClientDAO {
 
-    private static final String CREATE_TABLE_QUERY =
-                    "CREATE TABLE IF NOT EXISTS clients (id INT(11) not null auto_increment," +
-                    "name varchar(255) not null unique," +
-                    "address varchar(255) not null," +
-                    "phone varchar(20) not null," +
-                    "latitude DECIMAL(255)," +
-                    "longitude DECIMAL(255)," +
-                    "primary key(id)"+
-                    ");";
+    private static final String CREATE_TABLE_QUERY = String.format("CREATE TABLE IF NOT EXISTS clients (id SERIAL, clientId INT, name varchar(255) not null unique,address varchar(255) not null,phone varchar(20) not null,latitude DECIMAL(255),longitude DECIMAL(255),primary key(id));");
 
     public ClientDAO() {
         try {
@@ -51,14 +43,15 @@ public class ClientDAO {
         try {
             connection = Database.getDBConnection();
             connection.setAutoCommit(false);
-            String query = "INSERT INTO clients(clientId, name, address, phone, lat, lng) VALUES(?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO clients(clientId, name, address, phone, latitude, longitude) VALUES(?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(query);
-            statement.setString(1, String.valueOf(client.getClientId()));
+            statement.setInt(1, client.getClientId());
             statement.setString(2, client.getName());
             statement.setString(3, client.getAddress());
-            statement.setString(3, client.getPhone());
-            statement.setString(4, String.valueOf(client.getLatitude()));
-            statement.setString(5, String.valueOf(client.getLongitude()));
+            statement.setString(4, client.getPhone());
+            statement.setDouble(5, client.getLatitude());
+            statement.setDouble(6, client.getLongitude());
+            statement.executeUpdate();
             connection.commit();
             rs = statement.getGeneratedKeys();
             if (rs.next()) {

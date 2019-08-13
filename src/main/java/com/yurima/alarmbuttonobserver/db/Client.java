@@ -3,13 +3,13 @@ package com.yurima.alarmbuttonobserver.db;
 import javafx.beans.property.*;
 
 public class Client {
-    private IntegerProperty id;
-    private IntegerProperty clientId;
-    private StringProperty name;
-    private StringProperty address;
-    private StringProperty phone;
-    private DoubleProperty latitude;
-    private DoubleProperty longitude;
+    private IntegerProperty id = new SimpleIntegerProperty();
+    private IntegerProperty clientId = new SimpleIntegerProperty();
+    private StringProperty name = new SimpleStringProperty();
+    private StringProperty address = new SimpleStringProperty();
+    private StringProperty phone = new SimpleStringProperty();
+    private DoubleProperty latitude = new SimpleDoubleProperty();
+    private DoubleProperty longitude = new SimpleDoubleProperty();
 
     public void setId(int id) {
         this.id.set(id);

@@ -3,8 +3,9 @@ package com.yurima.alarmbuttonobserver.edit;
 import com.yurima.alarmbuttonobserver.db.Client;
 import com.yurima.alarmbuttonobserver.db.Model;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
-import java.awt.*;
+
 import java.sql.SQLException;
 
 public class AddController implements EditFormController {
@@ -34,7 +35,8 @@ public class AddController implements EditFormController {
         //TODO
         System.out.println("OK in AddForm");
         Client client = new Client();
-        client.setClientId(Integer.parseInt(id.getText()));
+        String text = this.id.getText();
+        client.setClientId(Integer.parseInt(text));
         client.setName((name.getText()));
         client.setAddress(address.getText());
         client.setPhone(phone.getText());

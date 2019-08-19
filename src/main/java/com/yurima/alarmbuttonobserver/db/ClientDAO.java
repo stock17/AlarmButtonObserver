@@ -1,6 +1,8 @@
 package com.yurima.alarmbuttonobserver.db;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ClientDAO {
@@ -32,8 +34,6 @@ public class ClientDAO {
         }
     }
 
-
-
     public int addClient(Client client) throws SQLException {
 
         Connection connection = null;
@@ -52,8 +52,8 @@ public class ClientDAO {
             statement.setDouble(5, client.getLatitude());
             statement.setDouble(6, client.getLongitude());
             statement.executeUpdate();
-            connection.commit();
             rs = statement.getGeneratedKeys();
+            connection.commit();
             if (rs.next()) {
                     return rs.getInt(1);
             }
@@ -68,5 +68,43 @@ public class ClientDAO {
         }
 
         return 0;
+    }
+
+    public List<Client> getClients() throws SQLException {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        List<Client> list = new ArrayList<>();
+        try {
+            connection = Database.getDBConnection();
+            connection.setAutoCommit(false);
+            String query = "SELECT * FROM clients";
+            statement = connection.createStatement();
+            rs = statement.executeQuery(query);
+            connection.commit();
+
+            while (rs.next()) {
+                Client client = new Client();
+                client.setId(rs.getInt(1));
+                client.setClientId(rs.getInt(2));
+                client.setName(rs.getString(3));
+                client.setAddress(rs.getString(4));
+                client.setPhone(rs.getString(5));
+                client.setLatitude(rs.getDouble(6));
+                client.setLongitude(rs.getDouble(7));
+                list.add(client);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (connection != null)    connection.rollback();
+
+        } finally {
+            if (rs != null)            rs.close();
+            if (statement != null)     statement.close();
+            if (connection != null)    connection.close();
+        }
+
+        return list;
+
     }
 }

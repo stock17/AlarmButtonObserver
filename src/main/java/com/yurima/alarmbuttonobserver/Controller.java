@@ -1,20 +1,19 @@
 package com.yurima.alarmbuttonobserver;
 
+import com.yurima.alarmbuttonobserver.db.Client;
 import com.yurima.alarmbuttonobserver.db.Model;
 import com.yurima.alarmbuttonobserver.edit.AddController;
 import com.yurima.alarmbuttonobserver.edit.EditController;
 import com.yurima.alarmbuttonobserver.edit.EditFormController;
 import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -22,8 +21,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
-public class Controller implements Server.ServerStateListener {
+public class Controller implements Server.ServerStateListener, Initializable {
 
     private Model model;
     private Thread serverThread;
@@ -31,13 +36,32 @@ public class Controller implements Server.ServerStateListener {
     private Image connectedImage = new Image("/connected.png");
     private Image disconnectedImage = new Image("/disconnected.png");
 
+    private ObservableList<Client> clientList;
+
     @FXML
     private Button startButton;
     @FXML
     private Label alarmMessageLabel;
+    @FXML
+    private ListView<String> clientListView;
+
+
 
     public Controller(){
         this.model = new Model();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        clientList = model.getClients();
+        Platform.runLater(() -> {
+            clientListView.getItems().setAll(
+                    clientList.stream()
+                            .map(Client::getName)
+                            .collect(Collectors.toList())
+                );
+            }
+        );
     }
 
 
@@ -93,4 +117,6 @@ public class Controller implements Server.ServerStateListener {
         });
 
     }
+
+
 }

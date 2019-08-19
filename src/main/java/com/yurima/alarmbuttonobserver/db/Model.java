@@ -17,6 +17,10 @@ public class Model {
         dao.addClient(client);
     }
 
+    public void deleteClient(Client client) throws SQLException {
+        dao.deleteClient(client);
+    }
+
     public ObservableList<Client> getClients() {
         ObservableList<Client> observableList = null;
         try {

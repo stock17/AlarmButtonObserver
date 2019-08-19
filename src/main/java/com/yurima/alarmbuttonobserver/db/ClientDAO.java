@@ -70,6 +70,37 @@ public class ClientDAO {
         return 0;
     }
 
+    public int deleteClient(Client client) throws SQLException {
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.getDBConnection();
+            connection.setAutoCommit(false);
+            String query = "DELETE FROM clients WHERE id = ?)";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, client.getId());
+            statement.executeUpdate();
+            rs = statement.getGeneratedKeys();
+            connection.commit();
+            if (rs.next()) {
+                    return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (connection != null)    connection.rollback();
+
+        } finally {
+            if (rs != null)            rs.close();
+            if (statement != null)     statement.close();
+            if (connection != null)    connection.close();
+        }
+
+        return 0;
+    }
+
     public List<Client> getClients() throws SQLException {
         Connection connection = null;
         Statement statement = null;

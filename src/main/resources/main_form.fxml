@@ -34,7 +34,7 @@
          <children>
             <Button fx:id="addButton" mnemonicParsing="false" onAction="#onAddButtonClick" prefHeight="50.0" prefWidth="100.0" text="Добавить" />
             <Button fx:id="editButton" mnemonicParsing="false" onAction="#onEditButtonClick" prefHeight="50.0" prefWidth="100.0" text="Изменить" />
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="100.0" text="Удалить" />
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onDeleteButtonClick" prefHeight="50.0" prefWidth="100.0" text="Удалить" />
          </children>
       </VBox>
       <Label fx:id="alarmMessageLabel" alignment="BASELINE_CENTER" text="Information" GridPane.halignment="CENTER" GridPane.valignment="TOP" />

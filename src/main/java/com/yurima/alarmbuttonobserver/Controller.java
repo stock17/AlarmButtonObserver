@@ -7,7 +7,9 @@ import com.yurima.alarmbuttonobserver.edit.EditController;
 import com.yurima.alarmbuttonobserver.edit.EditFormController;
 import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +24,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -36,14 +39,16 @@ public class Controller implements Server.ServerStateListener, Initializable {
     private Image connectedImage = new Image("/connected.png");
     private Image disconnectedImage = new Image("/disconnected.png");
 
+    /*------------- Client variables--------------*/
     private ObservableList<Client> clientList;
+    private Client selectedClient = null;
 
     @FXML
     private Button startButton;
     @FXML
     private Label alarmMessageLabel;
     @FXML
-    private ListView<String> clientListView;
+    private ListView<Client> clientListView;
 
 
 
@@ -53,15 +58,28 @@ public class Controller implements Server.ServerStateListener, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        clientList = model.getClients();
-        Platform.runLater(() -> {
-            clientListView.getItems().setAll(
-                    clientList.stream()
-                            .map(Client::getName)
-                            .collect(Collectors.toList())
-                );
+
+        clientListView.setCellFactory(param -> new ListCell<Client>() {
+            @Override
+            protected void updateItem(Client client, boolean empty) {
+                super.updateItem(client, empty);
+
+                if (empty || client == null || client.getName() == null) {
+                    setText(null);
+                } else {
+                    setText(client.getName());
+                }
             }
-        );
+        });
+
+        updateClientList();
+    }
+
+    private void updateClientList() {
+        if (clientList != null) clientList.clear();
+        clientList = model.getClients();
+        Platform.runLater(() ->
+            clientListView.getItems().setAll(clientList));
     }
 
 
@@ -82,6 +100,16 @@ public class Controller implements Server.ServerStateListener, Initializable {
     private void onEditButtonClick() throws IOException {
         openEditForm(new EditController());
     }
+
+    @FXML
+    private void onDeleteButtonClick() throws SQLException {
+
+        int index = clientListView.getSelectionModel().getSelectedIndex();
+
+        model.deleteClient(clientList.get(index));
+        updateClientList();
+    }
+
 
     private void openEditForm(EditFormController controller) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/edit_form.fxml"));

@@ -71,6 +71,7 @@ public class Controller implements Server.ServerStateListener, Initializable {
                 }
             }
         });
+        clientListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         updateClientList();
     }
@@ -103,10 +104,8 @@ public class Controller implements Server.ServerStateListener, Initializable {
 
     @FXML
     private void onDeleteButtonClick() throws SQLException {
-
-        int index = clientListView.getSelectionModel().getSelectedIndex();
-
-        model.deleteClient(clientList.get(index));
+        Client client = clientListView.getSelectionModel().getSelectedItem();
+        model.deleteClient(client);
         updateClientList();
     }
 

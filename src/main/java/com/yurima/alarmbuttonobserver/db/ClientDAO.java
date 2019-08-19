@@ -79,7 +79,7 @@ public class ClientDAO {
         try {
             connection = Database.getDBConnection();
             connection.setAutoCommit(false);
-            String query = "DELETE FROM clients WHERE id = ?)";
+            String query = "DELETE FROM clients WHERE id = ?";
             statement = connection.prepareStatement(query);
             statement.setInt(1, client.getId());
             statement.executeUpdate();

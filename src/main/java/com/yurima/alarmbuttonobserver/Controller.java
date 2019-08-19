@@ -105,6 +105,7 @@ public class Controller implements Server.ServerStateListener, Initializable {
     @FXML
     private void onDeleteButtonClick() throws SQLException {
         Client client = clientListView.getSelectionModel().getSelectedItem();
+        if (client == null) return;
         model.deleteClient(client);
         updateClientList();
     }

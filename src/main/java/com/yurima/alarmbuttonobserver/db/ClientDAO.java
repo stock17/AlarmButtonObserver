@@ -7,7 +7,17 @@ import java.util.List;
 
 public class ClientDAO {
 
-    private static final String CREATE_TABLE_QUERY = String.format("CREATE TABLE IF NOT EXISTS clients (id SERIAL, clientId INT, name varchar(255) not null unique,address varchar(255) not null,phone varchar(20) not null,latitude DECIMAL(255),longitude DECIMAL(255),primary key(id));");
+    private static final String CREATE_TABLE_QUERY =
+            "CREATE TABLE IF NOT EXISTS clients (" +
+                    "id SERIAL," +
+                    "clientId INT, " +
+                    "name varchar(255) not null unique, " +
+                    "address varchar(255) not null, " +
+                    "phone varchar(20) not null, " +
+                    "latitude DECIMAL(255), " +
+                    "longitude DECIMAL(255), " +
+                    "primary key(id)" +
+            ");";
 
     public ClientDAO() {
         try {

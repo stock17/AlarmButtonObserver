@@ -95,11 +95,15 @@ public class Controller implements Server.ServerStateListener, Initializable {
     @FXML
     private void onAddButtonClick() throws IOException {
         openEditForm(new AddController(model));
+        updateClientList();
     }
 
     @FXML
     private void onEditButtonClick() throws IOException {
-        openEditForm(new EditController());
+        Client client = clientListView.getSelectionModel().getSelectedItem();
+        if (client == null) return;
+        openEditForm(new EditController(model, client));
+        updateClientList();
     }
 
     @FXML

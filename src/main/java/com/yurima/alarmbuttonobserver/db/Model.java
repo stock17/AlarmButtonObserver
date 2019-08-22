@@ -17,6 +17,10 @@ public class Model {
         dao.addClient(client);
     }
 
+    public void editClient(Client client) throws SQLException {
+        dao.editClient(client);
+    }
+
     public void deleteClient(Client client) throws SQLException {
         dao.deleteClient(client);
     }

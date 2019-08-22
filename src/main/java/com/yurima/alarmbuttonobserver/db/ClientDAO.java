@@ -10,7 +10,7 @@ public class ClientDAO {
     private static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS clients (" +
                     "id SERIAL," +
-                    "clientId INT, " +
+                    "clientId INT unique, " +
                     "name varchar(255) not null unique, " +
                     "address varchar(255) not null, " +
                     "phone varchar(20) not null, " +
@@ -61,6 +61,43 @@ public class ClientDAO {
             statement.setString(4, client.getPhone());
             statement.setDouble(5, client.getLatitude());
             statement.setDouble(6, client.getLongitude());
+            statement.executeUpdate();
+            rs = statement.getGeneratedKeys();
+            connection.commit();
+            if (rs.next()) {
+                    return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            if (connection != null)    connection.rollback();
+
+        } finally {
+            if (rs != null)            rs.close();
+            if (statement != null)     statement.close();
+            if (connection != null)    connection.close();
+        }
+
+        return 0;
+    }
+
+    public int editClient(Client client) throws SQLException {
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+
+        try {
+            connection = Database.getDBConnection();
+            connection.setAutoCommit(false);
+            String query = "UPDATE clients SET clientId = ?, name = ?, address = ?, phone = ?, latitude = ?, longitude = ? WHERE clientId = ?";
+            statement = connection.prepareStatement(query);
+            statement.setInt(1, client.getClientId());
+            statement.setString(2, client.getName());
+            statement.setString(3, client.getAddress());
+            statement.setString(4, client.getPhone());
+            statement.setDouble(5, client.getLatitude());
+            statement.setDouble(6, client.getLongitude());
+            statement.setInt(7, client.getClientId());
             statement.executeUpdate();
             rs = statement.getGeneratedKeys();
             connection.commit();

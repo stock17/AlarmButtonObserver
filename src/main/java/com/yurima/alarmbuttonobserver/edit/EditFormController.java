@@ -1,6 +1,8 @@
 package com.yurima.alarmbuttonobserver.edit;
 
-public interface EditFormController {
+import javafx.fxml.Initializable;
+
+public interface EditFormController extends Initializable {
     void onOkButtonClick();
     void onCancelButtonClick();
 }

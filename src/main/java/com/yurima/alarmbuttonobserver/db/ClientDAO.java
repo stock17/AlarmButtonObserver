@@ -10,8 +10,8 @@ public class ClientDAO {
     private static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS clients (" +
                     "id SERIAL," +
-                    "clientId INT unique, " +
-                    "name varchar(255) not null unique, " +
+                    "clientId INT UNIQUE, " +
+                    "name varchar(255) not null, " +
                     "address varchar(255) not null, " +
                     "phone varchar(20) not null, " +
                     "latitude DECIMAL(255), " +

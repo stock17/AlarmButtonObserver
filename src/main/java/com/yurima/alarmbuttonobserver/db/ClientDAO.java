@@ -89,7 +89,7 @@ public class ClientDAO {
         try {
             connection = Database.getDBConnection();
             connection.setAutoCommit(false);
-            String query = "UPDATE clients SET clientId = ?, name = ?, address = ?, phone = ?, latitude = ?, longitude = ? WHERE clientId = ?";
+            String query = "UPDATE clients SET clientId = ?, name = ?, address = ?, phone = ?, latitude = ?, longitude = ? WHERE id = ?";
             statement = connection.prepareStatement(query);
             statement.setInt(1, client.getClientId());
             statement.setString(2, client.getName());
@@ -97,7 +97,7 @@ public class ClientDAO {
             statement.setString(4, client.getPhone());
             statement.setDouble(5, client.getLatitude());
             statement.setDouble(6, client.getLongitude());
-            statement.setInt(7, client.getClientId());
+            statement.setInt(7, client.getId());
             statement.executeUpdate();
             rs = statement.getGeneratedKeys();
             connection.commit();

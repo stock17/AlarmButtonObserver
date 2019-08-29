@@ -36,7 +36,6 @@ public class Server implements Runnable{
 
                 //TODO
                 System.out.println(buffer);
-
                 AlarmMessage msg = new AlarmMessageImpl(new JSONObject(buffer));
                 listener.onAlarmMessageReceived(msg);
             }

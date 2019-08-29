@@ -15,6 +15,8 @@ public class EditController implements EditFormController {
     private Model model;
     private Client client;
 
+    private int baseId;
+
     @FXML
     private TextField id;
     @FXML
@@ -36,7 +38,9 @@ public class EditController implements EditFormController {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        this.id.setText(String.valueOf(client.getClientId()));
+        this.baseId = client.getId();
+
+        id.setText(String.valueOf(client.getClientId()));
         name.setText(client.getName());
         address.setText(client.getAddress());
         phone.setText(client.getPhone());
@@ -49,6 +53,7 @@ public class EditController implements EditFormController {
     public void onOkButtonClick() {
         System.out.println("OK in EditForm");
         Client client = new Client();
+        client.setId(baseId);
         String text = this.id.getText();
         client.setClientId(Integer.parseInt(text));
         client.setName((name.getText()));

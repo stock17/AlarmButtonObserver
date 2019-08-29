@@ -5,6 +5,7 @@ import com.yurima.alarmbuttonobserver.db.Model;
 import com.yurima.alarmbuttonobserver.edit.AddController;
 import com.yurima.alarmbuttonobserver.edit.EditController;
 import com.yurima.alarmbuttonobserver.edit.EditFormController;
+import com.yurima.alarmbuttonobserver.log.EventLogger;
 import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
@@ -43,12 +44,16 @@ public class Controller implements Server.ServerStateListener, Initializable {
     private ObservableList<Client> clientList;
     private Client selectedClient = null;
 
+    private EventLogger eventLogger;
+
     @FXML
     private Button startButton;
     @FXML
     private Label alarmMessageLabel;
     @FXML
     private ListView<Client> clientListView;
+    @FXML
+    private ListView<String> logListView;
 
 
 
@@ -74,6 +79,9 @@ public class Controller implements Server.ServerStateListener, Initializable {
         clientListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         updateClientList();
+
+        eventLogger = new EventLogger(logListView);
+
     }
 
     private void updateClientList() {
@@ -128,7 +136,7 @@ public class Controller implements Server.ServerStateListener, Initializable {
 
     @Override
     public void onConnect() {
-        System.out.println("Server is connected");
+        eventLogger.log(EventLogger.SERVER_ON_MESSAGE);
         Platform.runLater( () -> {
                 startButton.setGraphic(new ImageView(connectedImage));
         });
@@ -136,7 +144,7 @@ public class Controller implements Server.ServerStateListener, Initializable {
 
     @Override
     public void onDisconnect() {
-        System.out.println("Server is disconnected");
+        eventLogger.log(EventLogger.SERVER_OFF_MESSAGE);
         Platform.runLater( () -> {
             startButton.setGraphic(new ImageView(disconnectedImage));
         });
@@ -144,10 +152,14 @@ public class Controller implements Server.ServerStateListener, Initializable {
 
     @Override
     public void onAlarmMessageReceived(AlarmMessage msg) {
-        Platform.runLater( () -> {
-            alarmMessageLabel.setText(msg.toString());
-        });
+        for (Client client : clientListView.getItems()) {
+            if (msg.getId() == client.getClientId()) {
+                eventLogger.log(msg, client);
+                return;
+            }
+        }
 
+        eventLogger.log(EventLogger.ERROR_MESSAGE);
     }
 
 

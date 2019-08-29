@@ -26,22 +26,20 @@ public class TestConductor {
                     while ((testCommand = reader.readLine()) != null){
                         System.out.println("Command:" + testCommand);
                         switch (testCommand){
-                            case "0":
+                            case "c":
                                 socket.shutdownInput();
                                 socket.shutdownOutput();
                                 socket.close();
                                 System.out.println("SOcket is closed");
                                 throw new IOException();
-                            case "1":
+                            default:
                                 String msg = new String ("{" +
-                                    AlarmMessage.ID_NAME + ":1," +
+                                    AlarmMessage.ID_NAME + ":" + testCommand + "," +
                                     AlarmMessage.DATE_NAME + ":" + Calendar.getInstance().getTime().getTime()+ "," +
                                     AlarmMessage.PHONE_NAME + ":+79991234567" +
                                     "}");
                                 writer.println(msg);
                                 writer.flush();
-                                break;
-                            default:
                         }
                     }
 

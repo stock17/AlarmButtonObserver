@@ -17,7 +17,7 @@ public interface AlarmMessage {
     void setLocation(Location location);
     void setPhone(String phone);
 
-    int getId();
+    Integer getId();
     Date getDate();
     Location getLocation();
     String getPhone();

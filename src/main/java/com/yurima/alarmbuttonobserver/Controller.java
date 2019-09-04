@@ -153,7 +153,10 @@ public class Controller implements Server.ServerStateListener, Initializable {
     @Override
     public void onAlarmMessageReceived(AlarmMessage msg) {
         for (Client client : clientListView.getItems()) {
-            if (msg.getId() == client.getClientId()) {
+            if (
+                    (msg.getId() != null && msg.getId() == client.getClientId()) ||
+                    (msg.getPhone() != null && msg.getPhone().equals(client.getPhone()))
+            ) {
                 eventLogger.log(msg, client);
                 return;
             }

@@ -2,6 +2,7 @@ package com.yurima.alarmbuttonobserver;
 
 import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
 import com.yurima.alarmbuttonobserver.msg.AlarmMessageImpl;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -33,11 +34,15 @@ public class Server implements Runnable{
 
             String buffer;
             while ((buffer = reader.readLine())!= null){
-
                 //TODO
                 System.out.println(buffer);
-                AlarmMessage msg = new AlarmMessageImpl(new JSONObject(buffer));
-                listener.onAlarmMessageReceived(msg);
+                try {
+                    AlarmMessage msg = new AlarmMessageImpl(new JSONObject(buffer));
+                    listener.onAlarmMessageReceived(msg);
+                } catch (JSONException e){
+                    e.printStackTrace();
+                    System.out.println("Incorrect message");
+                }
             }
 
         } catch (UnknownHostException e){

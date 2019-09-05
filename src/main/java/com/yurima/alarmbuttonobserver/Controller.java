@@ -20,6 +20,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -55,6 +57,8 @@ public class Controller implements Server.ServerStateListener, Initializable {
     private ListView<Client> clientListView;
     @FXML
     private ListView<EventLogger.Record> logListView;
+    @FXML
+    private WebView webView;
 
 
 
@@ -97,6 +101,9 @@ public class Controller implements Server.ServerStateListener, Initializable {
 
         eventLogger = new EventLogger(logListView);
 
+        // initialize webview
+        WebEngine webEngine = webView.getEngine();
+        webEngine.load(getClass().getResource("/ymap.html").toString());
     }
 
     private void updateClientList() {

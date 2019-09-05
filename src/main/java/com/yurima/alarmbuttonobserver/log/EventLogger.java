@@ -4,6 +4,7 @@ import com.yurima.alarmbuttonobserver.db.Client;
 import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
 import javafx.application.Platform;
 import javafx.scene.control.ListView;
+import javafx.scene.paint.Color;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,7 +28,7 @@ public class EventLogger {
         line.append(dateFormat.format(msg.getDate()))
         .append(client.getName()).append(" ")
         .append(client.getAddress()).append(" ");
-        publish(line.toString());
+        publish(new Record(line.toString(), Color.RED));
     }
 
     public void log (int i) {
@@ -38,23 +39,50 @@ public class EventLogger {
         switch (i) {
             case ERROR_MESSAGE:
                 line.append("Неизвестное сообщение");
-                publish(line.toString());
+                publish(new Record(line.toString(), Color.GREEN));
                 break;
             case SERVER_ON_MESSAGE:
                 line.append("Сервер подключен");
-                publish(line.toString());
+                publish(new Record(line.toString(), Color.GREEN));
                 break;
             case SERVER_OFF_MESSAGE:
                 line.append("Сервер отключен");
-                publish(line.toString());
+                publish(new Record(line.toString(), Color.GREEN));
                 break;
             default:
         }
     }
 
-    private void publish(String line) {
+    private void publish(Record line) {
         Platform.runLater( () -> {
             listView.getItems().add(line);
+
         });
+    }
+
+    public static class Record{
+        private String text;
+        private Color color;
+
+        public Record(String text, Color color) {
+            this.text = text;
+            this.color = color;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor(Color color) {
+            this.color = color;
+        }
     }
 }

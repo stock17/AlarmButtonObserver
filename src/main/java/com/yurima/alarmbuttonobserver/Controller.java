@@ -22,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
@@ -53,7 +54,7 @@ public class Controller implements Server.ServerStateListener, Initializable {
     @FXML
     private ListView<Client> clientListView;
     @FXML
-    private ListView<String> logListView;
+    private ListView<EventLogger.Record> logListView;
 
 
 
@@ -79,6 +80,20 @@ public class Controller implements Server.ServerStateListener, Initializable {
         clientListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         updateClientList();
+
+        logListView.setCellFactory(recordListView -> new ListCell<>() {
+            @Override
+            protected void updateItem(EventLogger.Record item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null) {
+                    setText(null);
+                    setTextFill(null);
+                } else {
+                    setText(item.getText());
+                    setTextFill(item.getColor());
+                }
+            }
+        });
 
         eventLogger = new EventLogger(logListView);
 

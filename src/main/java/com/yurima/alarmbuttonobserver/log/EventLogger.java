@@ -4,8 +4,12 @@ import com.yurima.alarmbuttonobserver.db.Client;
 import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
 import javafx.application.Platform;
 import javafx.scene.control.ListView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
+import java.io.File;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -16,10 +20,15 @@ public class EventLogger {
     public static final int SERVER_ON_MESSAGE = 2;
     public static final int SERVER_OFF_MESSAGE = 3;
 
+    private final static String ALARM_SOUND = "/sirenwail.wav";
+    private final static String SERVICE_SOUND = "/bleep_01.wav";
+
     private ListView listView;
 
     public EventLogger(ListView listView) {
         this.listView = listView;
+
+
     }
 
     public void log (AlarmMessage msg, Client client){
@@ -29,6 +38,7 @@ public class EventLogger {
         .append(client.getName()).append(" ")
         .append(client.getAddress()).append(" ");
         publish(new Record(line.toString(), Color.RED));
+        playSound(ALARM_SOUND);
     }
 
     public void log (int i) {
@@ -39,18 +49,18 @@ public class EventLogger {
         switch (i) {
             case ERROR_MESSAGE:
                 line.append("Неизвестное сообщение");
-                publish(new Record(line.toString(), Color.GREEN));
                 break;
             case SERVER_ON_MESSAGE:
                 line.append("Сервер подключен");
-                publish(new Record(line.toString(), Color.GREEN));
                 break;
             case SERVER_OFF_MESSAGE:
                 line.append("Сервер отключен");
-                publish(new Record(line.toString(), Color.GREEN));
                 break;
             default:
         }
+
+        publish(new Record(line.toString(), Color.GREEN));
+        playSound(SERVICE_SOUND);
     }
 
     private void publish(Record line) {
@@ -58,6 +68,13 @@ public class EventLogger {
             listView.getItems().add(line);
 
         });
+    }
+
+    private void playSound(String path) {
+        URL url = getClass().getResource(path);
+        Media sound = new Media(url.toString());
+        MediaPlayer player = new MediaPlayer(sound);
+        player.play();
     }
 
     public static class Record{

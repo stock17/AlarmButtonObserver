@@ -3,7 +3,8 @@
 <head>
     <!-- Подключаем API -->
     <!-- Подробнее https://tech.yandex.ru/maps/doc/jsapi/2.1/dg/concepts/load-docpage/ -->
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+	
+    <script src="https://api-maps.yandex.ru/2.1?apikey=a00160e9-082f-4a83-a5d3-4ed39967b005&lang=ru_RU" type="text/javascript"></script>
 </head>
 <body>
  
@@ -12,17 +13,21 @@
  
 <!-- Создаём карту -->
 <script type="text/javascript">
+var myMap;
     // Функция ymaps.ready() будет вызвана, когда
     // загрузятся все компоненты API, а также когда будет готово DOM-дерево.
     ymaps.ready(init);
- 
-    function init() {
+	<!-- setCenter(55.76, 37.64);	 -->
+		
+	
+	function init() {
         // Создание карты.
         // https://tech.yandex.ru/maps/doc/jsapi/2.1/dg/concepts/map-docpage/
-        var myMap = new ymaps.Map("map", {
+        myMap = new ymaps.Map("map", {
             // Координаты центра карты.
             // Порядок по умолчнию: «широта, долгота».
-			// 54.1144° N, 47.6176 Майна
+			// 55.7535, 37.6092 Москва
+			// 54.1144, 47.6176 Майна
             center: [54.1144, 47.6176],
             // Уровень масштабирования. Допустимые значения:
             // от 0 (весь мир) до 19.
@@ -64,11 +69,22 @@
             // Балун откроется при клике по метке.
             balloonContent: 'Содержимое балуна'
         });
+		
+		
  
         // После того как метка была создана, добавляем её на карту.
-        <!-- myMap.geoObjects.add(myPlacemark); -->
- 
+        <!-- myMap.geoObjects.add(myPlacemark); --> 
+		
+		<!-- var myPoint = new ymaps.GeoPoint(55.76, 37.64); -->
+		
     }
+	
+	myMap.setCenter([55.76, 37.64]);	
+	
+	function setCenter(lat, lng){		
+		<!-- myMap.setCenter([lat, lng]);	 -->
+		myMap.setCenter([55.76, 37.64]);	
+	}
 </script>
 </body>
 </html>

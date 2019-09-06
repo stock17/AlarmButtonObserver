@@ -8,9 +8,7 @@ import com.yurima.alarmbuttonobserver.edit.EditFormController;
 import com.yurima.alarmbuttonobserver.log.EventLogger;
 import com.yurima.alarmbuttonobserver.msg.AlarmMessage;
 import javafx.application.Platform;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,21 +17,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 public class Controller implements Server.ServerStateListener, Initializable {
 
@@ -59,6 +51,8 @@ public class Controller implements Server.ServerStateListener, Initializable {
     private ListView<EventLogger.Record> logListView;
     @FXML
     private WebView webView;
+
+    private WebEngine webEngine;
 
 
 
@@ -102,7 +96,7 @@ public class Controller implements Server.ServerStateListener, Initializable {
         eventLogger = new EventLogger(logListView);
 
         // initialize webview
-        WebEngine webEngine = webView.getEngine();
+        webEngine = webView.getEngine();
         webEngine.load(getClass().getResource("/ymap.html").toString());
     }
 
@@ -180,6 +174,16 @@ public class Controller implements Server.ServerStateListener, Initializable {
                     (msg.getPhone() != null && msg.getPhone().equals(client.getPhone()))
             ) {
                 eventLogger.log(msg, client);
+                if (client.getLatitude() != 0 && client.getLongitude()!= 0){
+                    double lat = client.getLatitude();
+                    double lng = client.getLatitude();
+                    Platform.runLater( () -> {
+//                        webEngine.executeScript("setCenter(" + lat + "," + lng + ")");
+                        webEngine.executeScript("setCenter(57.2222, 57.9999)");
+                    });
+
+                }
+
                 return;
             }
         }
